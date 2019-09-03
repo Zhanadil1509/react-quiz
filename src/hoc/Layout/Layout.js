@@ -1,13 +1,14 @@
 import React, {Component} from 'react'
+import {Layouts} from "./style";
 
 class Layout extends Component {
     render() {
         return (
-            <div>
+            <Layouts>
               <main>
                 {this.props.children}
               </main>
-            </div>
+            </Layouts>
         )
     }
 }
