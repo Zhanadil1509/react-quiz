@@ -7,7 +7,7 @@ class App extends Component {
         return (
             <Layout>
               <Quiz>
-
+                  <h1>React JS</h1>
               </Quiz>
             </Layout>
         )

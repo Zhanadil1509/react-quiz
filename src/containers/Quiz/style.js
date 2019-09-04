@@ -15,6 +15,3 @@ export const Quizs = styled.div`
 export const QuizsWrapper = styled.div`
   width: 600px;
 `
-export const NoWrapper = styled.div`
-
-`

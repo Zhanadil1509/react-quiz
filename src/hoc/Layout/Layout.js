@@ -5,6 +5,7 @@ class Layout extends Component {
     render() {
         return (
             <Layouts>
+                Layout
               <main>
                 {this.props.children}
               </main>
