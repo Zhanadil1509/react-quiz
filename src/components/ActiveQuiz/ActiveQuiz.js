@@ -8,13 +8,16 @@ const ActiveQuiz = (p) => {
       <Question>
         <span>
           <strong>1. </strong>
-          How are you?
+          {p.question}
         </span>
 
         <small>4 from 12</small>
       </Question>
 
-      <AnswersList answers={p.answers} />
+      <AnswersList
+          answers={p.answers}
+          onAnswerClick={p.onAnswerClick}
+      />
     </ActiveQuizs>
   )
 }
