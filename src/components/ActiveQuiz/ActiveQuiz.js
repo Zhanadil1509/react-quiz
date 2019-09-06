@@ -1,7 +1,8 @@
 import React from 'react'
 import {ActiveQuizs, Question} from './style'
+import AnswersList from "./AnswersList/AnswersList";
 
-const ActiveQuiz = () => {
+const ActiveQuiz = (p) => {
   return (
     <ActiveQuizs>
       <Question>
@@ -13,12 +14,7 @@ const ActiveQuiz = () => {
         <small>4 from 12</small>
       </Question>
 
-      <ul>
-        <li>1</li>
-        <li>2</li>
-        <li>3</li>
-        <li>4</li>
-      </ul>
+      <AnswersList answers={p.answers} />
     </ActiveQuizs>
   )
 }
