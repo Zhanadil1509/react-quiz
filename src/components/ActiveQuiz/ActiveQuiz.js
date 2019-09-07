@@ -11,7 +11,7 @@ const ActiveQuiz = (p) => {
           {p.question}
         </span>
 
-        <small>4 from 12</small>
+        <small>{p.answerNumber} from {p.quizLength}</small>
       </Question>
 
       <AnswersList
