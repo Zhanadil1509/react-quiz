@@ -6,6 +6,7 @@ class Quiz extends Component {
 
   state = {
     activeQuestion: 0,
+    answerState: null,
     quiz: [
       {
         question: 'Какого цвета небо?',
@@ -33,22 +34,46 @@ class Quiz extends Component {
   }
 
   onAnswerClickHandler = answerId => {
-    this.setState({
-      activeQuestion: this.state.activeQuestion + 1
-    })
+    const question = this.state.quiz[this.state.activeQuestion]
+
+    if(question.rightAnswerId === answerId) {
+
+      this.setState({answerState: {[answerId]: 'success'}})
+
+      const  timeOut = window.setTimeout(() => {
+        if(this.isQuizFinished()) {
+          console.log('Finished')
+        } else {
+          this.setState({
+            activeQuestion: this.state.activeQuestion + 1,
+            answerState: null
+          })
+        }
+        window.clearTimeout(timeOut)
+      }, 1000)
+    } else {
+      this.setState({answerState: {[answerId]: 'error'}})
+    }
+  }
+
+  isQuizFinished = () => {
+    return this.state.activeQuestion + 1 === this.state.quiz.length
   }
 
   render() {
+    const {quiz, activeQuestion, answerState} = this.state
+
     return (
       <Quizs>
         <QuizsWrapper>
           <h1>Answers all the questions</h1>
           <ActiveQuiz
-              answers={this.state.quiz[this.state.activeQuestion].answers}
-              question={this.state.quiz[this.state.activeQuestion].question}
+              answers={quiz[this.state.activeQuestion].answers}
+              question={quiz[this.state.activeQuestion].question}
               onAnswerClick={this.onAnswerClickHandler}
-              quizLength={this.state.quiz.length}
-              answerNumber={this.state.activeQuestion + 1}
+              quizLength={quiz.length}
+              answerNumber={activeQuestion + 1}
+              state={answerState}
           />
         </QuizsWrapper>
       </Quizs>
