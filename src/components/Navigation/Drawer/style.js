@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import {NavLink} from "react-router-dom";
 
 export const Drawers = styled.nav`
   position:fixed;
@@ -38,5 +39,10 @@ export const Drawers = styled.nav`
   }
   &.open {
     transform: translateX(0);
+  }
+`
+export const LeftMenu = styled(NavLink)`
+  &.active {
+    color: darkred;
   }
 `
