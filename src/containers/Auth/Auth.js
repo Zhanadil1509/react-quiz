@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Auths, AuthsForm} from "./style";
 import Input from "../../components/UI/Input/Input";
+import axios from "axios";
 
 function validateEmail(email) {
     let re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -39,12 +40,32 @@ class Auth extends Component {
         }
     }
 
-    loginHandler = () => {
-
+    loginHandler = async () => {
+        const authData = {
+            email: this.state.formControls.email.value,
+            password: this.state.formControls.password.value,
+            returnSecureToken: true
+        }
+        try {
+            const response = await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyD-d7aimWg-xKT17ZiTioX2NHltpmn_OM4', authData)
+            console.log(response.data)
+        } catch (e) {
+            console.log(e)
+        }
     }
 
-    registerHandler = () => {
-
+    registerHandler = async () => {
+        const authData = {
+            email: this.state.formControls.email.value,
+            password: this.state.formControls.password.value,
+            returnSecureToken: true
+        }
+        try {
+            const response = await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyD-d7aimWg-xKT17ZiTioX2NHltpmn_OM4', authData)
+            console.log(response.data)
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     submitHandler = (event) => {
