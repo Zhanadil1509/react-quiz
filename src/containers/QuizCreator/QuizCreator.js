@@ -3,6 +3,7 @@ import {QuizCreators} from "./style";
 import Input from "../../components/UI/Input/Input";
 import {createControl, validate, validateForm} from "../../form/formFramework";
 import Select from "../../components/UI/Select/Select";
+import axios from 'axios'
 
 const createOptionControl = (l) => createControl({
     label: `Вариант ${l}`,
@@ -63,9 +64,20 @@ class QuizCreator extends Component {
         })
     }
 
-    createQuizHandler = (e) => {
+    createQuizHandler = async (e) => {
         e.preventDefault()
-        console.log(this.state.quiz)
+        try {
+            await axios.post('https://react-quiz-81546.firebaseio.com/quizes.json', this.state.quiz)
+
+            this.setState({
+                quiz: [],
+                rightAnswerId: 1,
+                isFormValid: false,
+                formControls: createFormControls()
+            })
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     changeHandler = (v, controlName) => {
