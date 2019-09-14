@@ -4,94 +4,35 @@ import ActiveQuiz from '../../components/ActiveQuiz/ActiveQuiz'
 import ResultsQuiz from '../../components/ResultsQuiz/ResultsQuiz'
 import axios from 'axios'
 import Loader from "../../components/UI/Loader/Loader";
+import {connect} from "react-redux";
+import {fetchQuizById, quizAnswerClick, retryQuiz} from "../../store/actions/quiz";
 
 class Quiz extends Component {
 
-  state = {
-    results: {},
-    isFinished: false,
-    activeQuestion: 0,
-    answerState: null,
-    quiz: [],
-    loading: true
-  }
-
-  onAnswerClickHandler = answerId => {
-    if(this.state.answerState) {
-      const key = Object.keys(this.state.answerState)[0]
-      if(this.state.answerState[key] === 'success') {
-        return
-      }
-    }
-    const question = this.state.quiz[this.state.activeQuestion]
-    const results = this.state.results
-
-    if(question.rightAnswerId === answerId) {
-      if(!results[question.id]) {
-        results[question.id] = 'success'
-      }
-
-      this.setState({answerState: {[answerId]: 'success'}, results})
-
-      const  timeOut = window.setTimeout(() => {
-        if(this.isQuizFinished()) {
-          this.setState({ isFinished: true })
-        } else {
-          this.setState({
-            activeQuestion: this.state.activeQuestion + 1,
-            answerState: null
-          })
-        }
-        window.clearTimeout(timeOut)
-      }, 1000)
-    } else {
-      results[answerId] = 'error'
-      this.setState({answerState: {[answerId]: 'error'}, results})
-    }
-  }
-
-  isQuizFinished = () => this.state.activeQuestion + 1 === this.state.quiz.length
-
-  retryHandler = () => {
-    this.setState({
-      activeQuestion: 0,
-      answerState: null,
-      isFinished: false,
-      results: {}
-    })
-  }
-
-  async componentDidMount() {
-      try {
-          const response = await axios.get(`https://react-quiz-81546.firebaseio.com/quizes/${this.props.match.params.id}.json`)
-          const quiz = response.data
-
-          this.setState({quiz, loading: false})
-      } catch (e) {
-          console.log(e)
-      }
+  componentDidMount() {
+    this.props.fetchQuizById(this.props.match.params.id)
   }
 
   render() {
-    const {quiz, activeQuestion, answerState, isFinished, results} = this.state
+    const {quiz, activeQuestion, answerState, isFinished, results} = this.props
 
     return (
       <Quizs>
         <QuizsWrapper>
           {
-            this.state.loading
+            this.props.loading || !this.props.quiz
               ? <Loader />
               : isFinished
                 ? <ResultsQuiz
                     results={results}
                     quiz={quiz}
-                    onRetry={this.retryHandler}
+                    onRetry={this.props.retryQuiz}
                 />
                 : <> <h1>Answers all the questions</h1>
                   <ActiveQuiz
-                      answers={quiz[this.state.activeQuestion].answers}
-                      question={quiz[this.state.activeQuestion].question}
-                      onAnswerClick={this.onAnswerClickHandler}
+                      answers={quiz[this.props.activeQuestion].answers}
+                      question={quiz[this.props.activeQuestion].question}
+                      onAnswerClick={this.props.quizAnswerClick}
                       quizLength={quiz.length}
                       answerNumber={activeQuestion + 1}
                       state={answerState}
@@ -104,4 +45,22 @@ class Quiz extends Component {
   }
 }
 
-export default Quiz
+const mapStateToProp = (state) => {
+    return {
+      results: state.quiz.results,
+      isFinished: state.quiz.isFinished,
+      activeQuestion: state.quiz.activeQuestion,
+      answerState: state.quiz.answerState,
+      quiz: state.quiz.quiz,
+      loading: state.quiz.loading
+    }
+}
+const mapDispatchToProps = (dispatch) => {
+    return {
+      fetchQuizById: id => dispatch(fetchQuizById(id)),
+      quizAnswerClick: answerId => dispatch(quizAnswerClick(answerId)),
+      retryQuiz: () => dispatch(retryQuiz())
+    }
+}
+
+export default connect(mapStateToProp, mapDispatchToProps)( Quiz)
