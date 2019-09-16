@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import {Quizs, QuizsWrapper} from "./style";
 import ActiveQuiz from '../../components/ActiveQuiz/ActiveQuiz'
 import ResultsQuiz from '../../components/ResultsQuiz/ResultsQuiz'
-import axios from 'axios'
 import Loader from "../../components/UI/Loader/Loader";
 import {connect} from "react-redux";
 import {fetchQuizById, quizAnswerClick, retryQuiz} from "../../store/actions/quiz";
