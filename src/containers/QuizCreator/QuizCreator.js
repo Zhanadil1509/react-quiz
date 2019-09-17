@@ -1,11 +1,10 @@
-import React, {Component, Fragment} from 'react';
-import {QuizCreators} from "./style";
-import Input from "../../components/UI/Input/Input";
-import {createControl, validate, validateForm} from "../../form/formFramework";
-import Select from "../../components/UI/Select/Select";
-import axios from 'axios'
-import {connect} from "react-redux";
-import {createQuizQuestion, finishCreateQuiz} from "../../store/actions/create";
+import React, {Component, Fragment} from 'react'
+import {QuizCreators} from "./style"
+import Input from "../../components/UI/Input/Input"
+import {createControl, validate, validateForm} from "../../form/formFramework"
+import Select from "../../components/UI/Select/Select"
+import {connect} from "react-redux"
+import {createQuizQuestion, finishCreateQuiz} from "../../store/actions/create"
 
 const createOptionControl = (l) => createControl({
     label: `Вариант ${l}`,
