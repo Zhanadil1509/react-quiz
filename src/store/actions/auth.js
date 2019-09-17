@@ -41,6 +41,10 @@ export const logout = () => {
   }
 }
 
+export const autoLogin = () => {
+    
+}
+
 export const authSuccess = (token) => {
   return {
     type: AUTH_SUCCESS,

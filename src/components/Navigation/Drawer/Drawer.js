@@ -3,15 +3,9 @@ import {Drawers} from "./style";
 import BackDrop from "../../UI/BackDrop/BackDrop";
 import {LeftMenu} from './style'
 
-const links = [
-    {to: '/', label: 'Список', exact: true},
-    {to: '/auth', label: 'Авторизация', exact: false},
-    {to: '/quiz-creator', label: 'Создать тест', exact: false}
-]
-
 class Drawer extends Component {
 
-    renderLinks = () => links.map((v, i) => {
+    renderLinks = (links) => links.map((v, i) => {
         return (
             <li key={i}>
                 <LeftMenu
@@ -25,12 +19,21 @@ class Drawer extends Component {
     })
 
     render() {
+      const links = [
+        {to: '/', label: 'Список', exact: true}
+      ]
+      if(this.props.isAuthenticated) {
+        links.push({to: '/quiz-creator', label: 'Создать тест', exact: false})
+        links.push({to: '/logout', label: 'Выйти', exact: false})
+      } else {
+        links.push({to: '/auth', label: 'Авторизация', exact: false})
+      }
         return (
             <>
                 { this.props.isOpen ? <BackDrop onDrop={this.props.onClose} /> : null }
                 <Drawers className={this.props.isOpen ? 'open' : 'close'}>
                     <ul>
-                        {this.renderLinks()}
+                        {this.renderLinks(links)}
                     </ul>
                 </Drawers>
             </>
