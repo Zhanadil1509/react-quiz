@@ -1,8 +1,7 @@
 ## React quiz
 Testing site 
 
-### Demo
-in progress...
+### [Demo (need refactoring)](https://react-quiz-81546.firebaseapp.com/)
 ***
 ### Quick start
 1. npm i
